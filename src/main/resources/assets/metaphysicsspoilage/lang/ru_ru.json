@@ -1,0 +1,74 @@
+{
+  "item.metaphysicsspoilage.food_container": "Контейнер для еды",
+  "item.metaphysicsspoilage.example_item": "Пример предмета",
+  "block.metaphysicsspoilage.example_block": "Пример блока",
+
+  "itemGroup.metaphysicsspoilage": "Метафизика порчи",
+
+  "container.metaphysicsspoilage.food_container": "Контейнер для еды",
+
+  "message.metaphysicsspoilage.food_blocked_no_timestamp": "Нельзя есть %s без временной метки!",
+  "message.metaphysicsspoilage.food_zero_nutrition": "Употребление %s без временной метки не восстанавливает голод!",
+
+  "tooltip.metaphysicsspoilage.spoilage_info": "Информация о порче",
+  "tooltip.metaphysicsspoilage.creation_day": "Создан в день: %s",
+  "tooltip.metaphysicsspoilage.spoilage_day": "Испортится в день: %s",
+  "tooltip.metaphysicsspoilage.days_remaining": "Осталось дней: %s",
+  "tooltip.metaphysicsspoilage.days_remaining.spoiled": "ИСПОРЧЕНО",
+  "tooltip.metaphysicsspoilage.freshness_label": "Свежесть",
+
+  "tooltip.metaphysicsspoilage.freshness.fresh": "Свежее",
+  "tooltip.metaphysicsspoilage.freshness.slightly_stale": "Слегка черствое",
+  "tooltip.metaphysicsspoilage.freshness.stale": "Черствое",
+  "tooltip.metaphysicsspoilage.freshness.spoiled": "Испорченное",
+
+  "tooltip.metaphysicsspoilage.spoilage_type_label": "Превратится в",
+  "tooltip.metaphysicsspoilage.spoilage_type.rotten_flesh": "Гнилую плоть",
+  "tooltip.metaphysicsspoilage.spoilage_type.compost": "Компост",
+  "tooltip.metaphysicsspoilage.spoilage_type.rancid_oil": "Прогорклое масло",
+
+  "tooltip.metaphysicsspoilage.warning.spoiled": "⚠ Эта еда испорчена!",
+
+  "tooltip.metaphysicsspoilage.food_container.empty": "Пусто",
+  "tooltip.metaphysicsspoilage.food_container.contents": "Содержимое контейнера",
+  "tooltip.metaphysicsspoilage.food_container.item_count": "Предметов хранится: %s",
+  "tooltip.metaphysicsspoilage.food_container.more_items": "...и еще %s предметов",
+
+  "tooltip.metaphysicsspoilage.food_container.fresh_items": "Свежих: %s предметов",
+  "tooltip.metaphysicsspoilage.food_container.stale_items": "Черствых: %s предметов",
+  "tooltip.metaphysicsspoilage.food_container.spoiled_items": "Испорченных: %s предметов",
+
+  "gui.metaphysicsspoilage.food_container.extract_all": "Извлечь все",
+  "gui.metaphysicsspoilage.food_container.extract_oldest": "Извлечь старое",
+  "gui.metaphysicsspoilage.food_container.refresh": "Обновить",
+
+  "gui.metaphysicsspoilage.food_container.tooltip.extract_all": "Извлечь все предметы из контейнера",
+  "gui.metaphysicsspoilage.food_container.tooltip.extract_oldest": "Извлечь самую старую еду",
+  "gui.metaphysicsspoilage.food_container.tooltip.refresh": "Обновить отображение и удалить испорченную еду",
+
+  "gui.metaphysicsspoilage.food_container.tooltip.count": "Количество: %s",
+  "gui.metaphysicsspoilage.food_container.tooltip.creation_days": "Дни создания: %s",
+  "gui.metaphysicsspoilage.food_container.tooltip.no_spoilage": "Не портится",
+  "gui.metaphysicsspoilage.food_container.tooltip.spoiled": "ИСПОРЧЕНО!",
+  "gui.metaphysicsspoilage.food_container.tooltip.spoils_soon": "Скоро испортится: %s дней",
+  "gui.metaphysicsspoilage.food_container.tooltip.spoils_in": "До порчи: %s дней",
+  "gui.metaphysicsspoilage.food_container.tooltip.lmb": "ЛКМ: Извлечь 1",
+  "gui.metaphysicsspoilage.food_container.tooltip.rmb": "ПКМ: Извлечь все этого типа",
+  "gui.metaphysicsspoilage.food_container.tooltip.shift_lmb": "Shift+ЛКМ: Извлечь половину",
+
+  "gui.metaphysicsspoilage.food_container.info.items": "Предметов: %s",
+  "gui.metaphysicsspoilage.food_container.info.page": "Страница: %s/%s",
+
+  "gui.metaphysicsspoilage.food_container.empty_text": "Пустой",
+  "gui.metaphysicsspoilage.food_container.total_items": "Всего предметов: %s",
+  "gui.metaphysicsspoilage.food_container.types_more": "...и еще %s типов",
+  "gui.metaphysicsspoilage.food_container.spoiled_text": "испорчено",
+  "gui.metaphysicsspoilage.food_container.contains_types": "Содержит %s типов еды",
+  "gui.metaphysicsspoilage.food_container.right_click_eat": "Правый клик для употребления",
+  "gui.metaphysicsspoilage.food_container.right_click_extract": "Правый клик с пустой рукой для извлечения",
+
+  "config.metaphysicsspoilage.title": "Настройки MetaphysicsSpoilage",
+  "config.metaphysicsspoilage.general": "Общие настройки",
+  "config.metaphysicsspoilage.spoilage_system": "Система порчи",
+  "config.metaphysicsspoilage.food_storage": "Длительность хранения еды"
+}

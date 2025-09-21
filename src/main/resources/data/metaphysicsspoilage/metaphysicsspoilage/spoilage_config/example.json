@@ -1,0 +1,38 @@
+{
+  "_comment": "Пример конфигурации порчи еды для MetaphysicsSpoilage",
+  "_comment2": "Скопируйте этот файл в datapack чтобы переопределить настройки",
+  "_format": {
+    "itemId": {
+      "canSpoil": true,
+      "spoilageTime": 2,
+      "spoilageType": "auto",
+      "excluded": false
+    }
+  },
+
+  "minecraft:golden_apple": {
+    "canSpoil": true,
+    "spoilageTime": 30,
+    "spoilageType": "plant",
+    "excluded": false
+  },
+
+  "minecraft:enchanted_golden_apple": {
+    "canSpoil": false,
+    "excluded": true
+  },
+
+  "minecraft:cake": {
+    "canSpoil": true,
+    "spoilageTime": 7,
+    "spoilageType": "bakery"
+  },
+
+  "_modded_examples": {
+    "somemod:special_food": {
+      "canSpoil": true,
+      "spoilageTime": 5,
+      "spoilageType": "meat"
+    }
+  }
+}

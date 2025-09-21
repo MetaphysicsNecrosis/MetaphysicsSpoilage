@@ -1,0 +1,76 @@
+{
+  "item.metaphysicsspoilage.food_container_basic": "Basic Food Container",
+  "item.metaphysicsspoilage.food_container_advanced": "Advanced Food Container",
+  "item.metaphysicsspoilage.food_container_premium": "Premium Food Container",
+  "item.metaphysicsspoilage.example_item": "Example Item",
+  "block.metaphysicsspoilage.example_block": "Example Block",
+
+  "itemGroup.metaphysicsspoilage": "MetaphysicsSpoilage",
+
+  "container.metaphysicsspoilage.food_container": "Food Container",
+
+  "message.metaphysicsspoilage.food_blocked_no_timestamp": "Cannot eat %s without timestamp!",
+  "message.metaphysicsspoilage.food_zero_nutrition": "Eating %s without timestamp provides no nutrition!",
+
+  "tooltip.metaphysicsspoilage.spoilage_info": "Spoilage Information",
+  "tooltip.metaphysicsspoilage.creation_day": "Created on day: %s",
+  "tooltip.metaphysicsspoilage.spoilage_day": "Spoils on day: %s",
+  "tooltip.metaphysicsspoilage.days_remaining": "Days remaining: %s",
+  "tooltip.metaphysicsspoilage.days_remaining.spoiled": "SPOILED",
+  "tooltip.metaphysicsspoilage.freshness_label": "Freshness",
+
+  "tooltip.metaphysicsspoilage.freshness.fresh": "Fresh",
+  "tooltip.metaphysicsspoilage.freshness.slightly_stale": "Slightly Stale",
+  "tooltip.metaphysicsspoilage.freshness.stale": "Stale",
+  "tooltip.metaphysicsspoilage.freshness.spoiled": "Spoiled",
+
+  "tooltip.metaphysicsspoilage.spoilage_type_label": "Spoils into",
+  "tooltip.metaphysicsspoilage.spoilage_type.rotten_flesh": "Rotten Flesh",
+  "tooltip.metaphysicsspoilage.spoilage_type.compost": "Compost",
+  "tooltip.metaphysicsspoilage.spoilage_type.rancid_oil": "Rancid Oil",
+
+  "tooltip.metaphysicsspoilage.warning.spoiled": "⚠ This food is spoiled!",
+
+  "tooltip.metaphysicsspoilage.food_container.empty": "Empty",
+  "tooltip.metaphysicsspoilage.food_container.contents": "Container Contents",
+  "tooltip.metaphysicsspoilage.food_container.item_count": "Items stored: %s",
+  "tooltip.metaphysicsspoilage.food_container.more_items": "...and %s more items",
+
+  "tooltip.metaphysicsspoilage.food_container.fresh_items": "Fresh: %s items",
+  "tooltip.metaphysicsspoilage.food_container.stale_items": "Stale: %s items",
+  "tooltip.metaphysicsspoilage.food_container.spoiled_items": "Spoiled: %s items",
+
+  "gui.metaphysicsspoilage.food_container.extract_all": "Extract All",
+  "gui.metaphysicsspoilage.food_container.extract_oldest": "Extract Oldest",
+  "gui.metaphysicsspoilage.food_container.refresh": "Refresh",
+
+  "gui.metaphysicsspoilage.food_container.tooltip.extract_all": "Extract all items from container",
+  "gui.metaphysicsspoilage.food_container.tooltip.extract_oldest": "Extract the oldest food",
+  "gui.metaphysicsspoilage.food_container.tooltip.refresh": "Refresh display and remove spoiled food",
+
+  "gui.metaphysicsspoilage.food_container.tooltip.count": "Amount: %s",
+  "gui.metaphysicsspoilage.food_container.tooltip.creation_days": "Creation days: %s",
+  "gui.metaphysicsspoilage.food_container.tooltip.no_spoilage": "Does not spoil",
+  "gui.metaphysicsspoilage.food_container.tooltip.spoiled": "SPOILED!",
+  "gui.metaphysicsspoilage.food_container.tooltip.spoils_soon": "Spoils soon: %s days",
+  "gui.metaphysicsspoilage.food_container.tooltip.spoils_in": "Spoils in: %s days",
+  "gui.metaphysicsspoilage.food_container.tooltip.lmb": "LMB: Extract 1",
+  "gui.metaphysicsspoilage.food_container.tooltip.rmb": "RMB: Extract all of this type",
+  "gui.metaphysicsspoilage.food_container.tooltip.shift_lmb": "Shift+LMB: Extract half",
+
+  "gui.metaphysicsspoilage.food_container.info.items": "Items: %s",
+  "gui.metaphysicsspoilage.food_container.info.page": "Page: %s/%s",
+
+  "gui.metaphysicsspoilage.food_container.empty_text": "Empty",
+  "gui.metaphysicsspoilage.food_container.total_items": "Total items: %s",
+  "gui.metaphysicsspoilage.food_container.types_more": "...and %s more types",
+  "gui.metaphysicsspoilage.food_container.spoiled_text": "spoiled",
+  "gui.metaphysicsspoilage.food_container.contains_types": "Contains %s food types",
+  "gui.metaphysicsspoilage.food_container.right_click_eat": "Right click to consume",
+  "gui.metaphysicsspoilage.food_container.right_click_extract": "Right click with empty hand to extract",
+
+  "config.metaphysicsspoilage.title": "MetaphysicsSpoilage Configuration",
+  "config.metaphysicsspoilage.general": "General Settings",
+  "config.metaphysicsspoilage.spoilage_system": "Spoilage System",
+  "config.metaphysicsspoilage.food_storage": "Food Storage Duration"
+}

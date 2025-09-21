@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "DDD",
+    "DAD",
+    "DND"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "A": "metaphysicsspoilage:food_container_advanced",
+    "N": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "metaphysicsspoilage:food_container_premium",
+    "count": 1
+  }
+}

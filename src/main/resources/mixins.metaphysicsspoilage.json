@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.metaphysicsnecrosis.metaphysicsspoilage.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "metaphysicsspoilage.refmap.json",
+  "mixins": [
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "_comment": "Исключения из системы порчи - предметы которые не должны портиться",
+  "_note": "Эти предметы полностью исключены из системы порчи по логическим причинам",
+
+  // === УЖЕ ИСПОРЧЕННАЯ ЕДА ===
+  "minecraft:rotten_flesh": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Уже испорченное мясо"
+  },
+  "minecraft:spider_eye": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Ядовитый компонент, уже 'испорчен'"
+  },
+  "minecraft:poisonous_potato": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Уже ядовитая, дальше не портится"
+  },
+
+  // === МАГИЧЕСКАЯ ЕДА ===
+  "minecraft:golden_apple": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Магическое золото консервирует"
+  },
+  "minecraft:enchanted_golden_apple": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Зачарованное золотое яблоко не портится"
+  },
+  "minecraft:chorus_fruit": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Эндерский фрукт из другого измерения"
+  },
+
+  // === ДОЛГО ХРАНЯЩИЕСЯ ПРОДУКТЫ ===
+  "minecraft:dried_kelp": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Высушенная водоросль хранится очень долго"
+  },
+  "minecraft:honey_bottle": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Мёд не портится в реальности"
+  },
+
+  // === ЗЕЛЬЯ И АЛХИМИЯ ===
+  "minecraft:potion": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Алхимические зелья стабильны"
+  },
+  "minecraft:splash_potion": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Взрывные зелья стабильны"
+  },
+  "minecraft:lingering_potion": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Задерживающиеся зелья стабильны"
+  },
+
+  // === СЕМЕНА И САЖЕНЦЫ ===
+  "minecraft:wheat_seeds": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Семена сохраняются долго"
+  },
+  "minecraft:beetroot_seeds": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Семена сохраняются долго"
+  },
+  "minecraft:melon_seeds": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Семена сохраняются долго"
+  },
+  "minecraft:pumpkin_seeds": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Семена сохраняются долго"
+  },
+  "minecraft:torchflower_seeds": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Семена сохраняются долго"
+  },
+  "minecraft:pitcher_pod": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Семена сохраняются долго"
+  },
+  "minecraft:oak_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:spruce_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:birch_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:jungle_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:acacia_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:dark_oak_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:cherry_sapling": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:azalea": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:flowering_azalea": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:mangrove_propagule": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Саженцы выносливые"
+  },
+  "minecraft:bamboo": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Бамбук очень живучий"
+  },
+  "minecraft:cactus": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Кактус устойчив к порче"
+  },
+  "minecraft:sugar_cane": {
+    "excluded": true,
+    "canSpoil": false,
+    "_reason": "Сахарный тростник долговечен"
+  }
+}

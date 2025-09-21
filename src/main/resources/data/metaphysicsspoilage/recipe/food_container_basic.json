@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WWW",
+    "WCW",
+    "WWW"
+  ],
+  "key": {
+    "W": "minecraft:oak_planks",
+    "C": "minecraft:coal"
+  },
+  "result": {
+    "id": "metaphysicsspoilage:food_container_basic",
+    "count": 1
+  }
+}

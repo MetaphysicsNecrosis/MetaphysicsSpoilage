@@ -1,0 +1,131 @@
+{
+  "_comment": "Базовые настройки порчи из SpoilageUtils - минимальный набор для работы системы",
+  "_priority": "low",
+  "_note": "Эти настройки переопределяются основным файлом vanilla_minecraft.json",
+
+  "minecraft:bread": {
+    "canSpoil": true,
+    "spoilageTime": 3,
+    "spoilageType": "bakery"
+  },
+  "minecraft:apple": {
+    "canSpoil": true,
+    "spoilageTime": 5,
+    "spoilageType": "plant"
+  },
+  "minecraft:cooked_beef": {
+    "canSpoil": true,
+    "spoilageTime": 2,
+    "spoilageType": "meat"
+  },
+  "minecraft:cooked_porkchop": {
+    "canSpoil": true,
+    "spoilageTime": 2,
+    "spoilageType": "meat"
+  },
+  "minecraft:cooked_chicken": {
+    "canSpoil": true,
+    "spoilageTime": 2,
+    "spoilageType": "meat"
+  },
+  "minecraft:cooked_mutton": {
+    "canSpoil": true,
+    "spoilageTime": 2,
+    "spoilageType": "meat"
+  },
+  "minecraft:cooked_rabbit": {
+    "canSpoil": true,
+    "spoilageTime": 2,
+    "spoilageType": "meat"
+  },
+  "minecraft:cooked_cod": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:cooked_salmon": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:milk_bucket": {
+    "canSpoil": true,
+    "spoilageTime": 4,
+    "spoilageType": "bakery"
+  },
+  "minecraft:mushroom_stew": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:beetroot_soup": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "plant"
+  },
+  "minecraft:rabbit_stew": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:suspicious_stew": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "plant"
+  },
+  "minecraft:cake": {
+    "canSpoil": true,
+    "spoilageTime": 7,
+    "spoilageType": "bakery"
+  },
+  "minecraft:pumpkin_pie": {
+    "canSpoil": true,
+    "spoilageTime": 4,
+    "spoilageType": "bakery"
+  },
+  "minecraft:beef": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:porkchop": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:chicken": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:mutton": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:rabbit": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:cod": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:salmon": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:tropical_fish": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  },
+  "minecraft:pufferfish": {
+    "canSpoil": true,
+    "spoilageTime": 1,
+    "spoilageType": "meat"
+  }
+}
