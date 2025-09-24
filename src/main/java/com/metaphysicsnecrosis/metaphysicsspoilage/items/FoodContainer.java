@@ -6,12 +6,9 @@ import com.metaphysicsnecrosis.metaphysicsspoilage.manager.TimedFoodManager;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageChecker;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageUtils;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageTransformer;
-import com.metaphysicsnecrosis.metaphysicsspoilage.time.WorldDayTracker;
 import com.metaphysicsnecrosis.metaphysicsspoilage.gui.FoodContainerMenu;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +21,6 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -658,96 +654,6 @@ public class FoodContainer extends Item {
             LOGGER.debug("Открыт GUI FoodContainer для игрока {} (слот: {})",
                         player.getName().getString(), finalContainerSlot);
         }
-    }
-
-    // TODO: Исправить сигнатуру appendHoverText для NeoForge 1.21.8
-    public void appendHoverTextCustom(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        Level level = context.level();
-
-        // Проверяем порчу перед отображением tooltip
-        if (level instanceof ServerLevel serverLevel) {
-            checkAndRemoveSpoiledFood(stack, serverLevel);
-        }
-
-        List<StoredFoodEntry> storedFoods = getStoredFoods(stack);
-
-        if (storedFoods.isEmpty()) {
-            tooltipComponents.add(Component.translatable("gui.metaphysicsspoilage.food_container.empty_text").withStyle(ChatFormatting.GRAY));
-            return;
-        }
-
-        int totalCount = getTotalCount(stack);
-        tooltipComponents.add(Component.translatable("gui.metaphysicsspoilage.food_container.total_items", totalCount).withStyle(ChatFormatting.YELLOW));
-
-        if (level instanceof ServerLevel serverLevel) {
-            WorldDayTracker tracker = WorldDayTracker.getInstance(serverLevel);
-            long currentDay = tracker.getCurrentDay();
-
-            // Группируем по типам еды и показываем информацию
-            Map<String, List<StoredFoodEntry>> groupedFoods = new HashMap<>();
-            for (StoredFoodEntry entry : storedFoods) {
-                groupedFoods.computeIfAbsent(entry.itemId(), k -> new ArrayList<>()).add(entry);
-            }
-
-            int displayCount = 0;
-            for (Map.Entry<String, List<StoredFoodEntry>> group : groupedFoods.entrySet()) {
-                if (displayCount >= 5) { // Ограничиваем количество строк в тултипе
-                    tooltipComponents.add(Component.translatable("gui.metaphysicsspoilage.food_container.types_more", (groupedFoods.size() - displayCount))
-                            .withStyle(ChatFormatting.GRAY));
-                    break;
-                }
-
-                String itemId = group.getKey();
-                List<StoredFoodEntry> entries = group.getValue();
-
-                // Находим самую свежую и самую старую еду этого типа
-                long minDay = entries.stream().mapToLong(StoredFoodEntry::creationDay).min().orElse(currentDay);
-                long maxDay = entries.stream().mapToLong(StoredFoodEntry::creationDay).max().orElse(currentDay);
-                int typeCount = entries.stream().mapToInt(StoredFoodEntry::count).sum();
-
-                // Определяем цвет в зависимости от свежести
-                ChatFormatting color = ChatFormatting.GREEN;
-                long daysUntilSpoilage = Long.MAX_VALUE;
-
-                // Проверяем срок годности для самой старой еды этого типа
-                Item item = BuiltInRegistries.ITEM.getValue(ResourceLocation.parse(itemId));
-                if (item != null) {
-                    ItemStack tempStack = new ItemStack(item);
-                    SpoilageUtils.setCreationDay(tempStack, minDay);
-                    daysUntilSpoilage = SpoilageChecker.getTimeUntilSpoilage(tempStack, serverLevel);
-
-                    if (daysUntilSpoilage <= 0) {
-                        color = ChatFormatting.RED;
-                    } else if (daysUntilSpoilage <= 1) {
-                        color = ChatFormatting.YELLOW;
-                    }
-                }
-
-                String itemName = item != null ? item.getName(new ItemStack(item)).getString() : itemId;
-                String dayInfo = (minDay == maxDay) ? "день " + minDay : "дни " + minDay + "-" + maxDay;
-
-                if (daysUntilSpoilage == Long.MAX_VALUE) {
-                    tooltipComponents.add(Component.literal("• " + itemName + " x" + typeCount + " (" + dayInfo + ")")
-                            .withStyle(color));
-                } else if (daysUntilSpoilage <= 0) {
-                    tooltipComponents.add(Component.literal("• " + itemName + " x" + typeCount + " (" + Component.translatable("gui.metaphysicsspoilage.food_container.spoiled_text").getString() + ")")
-                            .withStyle(color));
-                } else {
-                    tooltipComponents.add(Component.literal("• " + itemName + " x" + typeCount +
-                            " (до порчи: " + daysUntilSpoilage + " дней)")
-                            .withStyle(color));
-                }
-
-                displayCount++;
-            }
-        } else {
-            // На клиенте показываем только базовую информацию
-            tooltipComponents.add(Component.translatable("gui.metaphysicsspoilage.food_container.contains_types", storedFoods.size())
-                    .withStyle(ChatFormatting.GRAY));
-        }
-
-        tooltipComponents.add(Component.translatable("gui.metaphysicsspoilage.food_container.right_click_eat").withStyle(ChatFormatting.BLUE));
-        tooltipComponents.add(Component.translatable("gui.metaphysicsspoilage.food_container.right_click_extract").withStyle(ChatFormatting.AQUA));
     }
 
     @Override

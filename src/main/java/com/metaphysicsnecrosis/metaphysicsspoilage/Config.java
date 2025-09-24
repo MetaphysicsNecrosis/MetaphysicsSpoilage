@@ -108,6 +108,7 @@ public class Config {
     public static final ModConfigSpec.BooleanValue ENABLE_GLOBAL_CONTAINER_PROCESSING;
     public static final ModConfigSpec.IntValue GLOBAL_CONTAINER_CHECK_INTERVAL;
     public static final ModConfigSpec.IntValue PLAYER_CONTAINER_CHECK_INTERVAL;
+    public static final ModConfigSpec.IntValue CONTAINER_CHECK_RADIUS;
 
     static {
         // General settings
@@ -238,13 +239,16 @@ public class Config {
                 .push("container_processing");
         ENABLE_GLOBAL_CONTAINER_PROCESSING = BUILDER
                 .comment("Enable processing of ALL containers in loaded chunks (performance intensive)")
-                .define("enableGlobalContainerProcessing", false);
+                .define("enableGlobalContainerProcessing", true);
         GLOBAL_CONTAINER_CHECK_INTERVAL = BUILDER
                 .comment("Interval in ticks for checking all containers globally (20 ticks = 1 second)")
-                .defineInRange("globalContainerCheckInterval", 60, 20, 1200);
+                .defineInRange("globalContainerCheckInterval", 20, 20, 1200);
         PLAYER_CONTAINER_CHECK_INTERVAL = BUILDER
                 .comment("Interval in ticks for checking containers opened by players (faster)")
                 .defineInRange("playerContainerCheckInterval", 20, 1, 60);
+        CONTAINER_CHECK_RADIUS = BUILDER
+                .comment("Radius in blocks for checking containers around players (sphere)")
+                .defineInRange("containerCheckRadius", 100, 10, 200);
         BUILDER.pop();
     }
 

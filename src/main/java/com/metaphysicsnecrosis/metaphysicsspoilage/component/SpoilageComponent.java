@@ -27,6 +27,14 @@ public record SpoilageComponent(long creationDay) {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpoilageComponent.class);
 
     /**
+     * Специальные флаги временных меток (по образцу TFC)
+     */
+    public static final long TRANSIENT_NEVER_DECAY_FLAG = -1L;    // Временно не портится (сбрасывается на текущее время при копировании)
+    public static final long INVISIBLE_NEVER_DECAY_FLAG = -2L;    // Невидимо не портится
+    public static final long NEVER_DECAY_FLAG = -3L;              // Никогда не портится (с тултипом)
+    public static final long ROTTEN_FLAG = -4L;                   // Принудительно испорчено
+
+    /**
      * Константы для валидации
      */
     public static final long MIN_CREATION_DAY = 0L;
@@ -36,16 +44,31 @@ public record SpoilageComponent(long creationDay) {
      * Конструктор с валидацией данных
      */
     public SpoilageComponent {
-        if (creationDay < MIN_CREATION_DAY) {
-            LOGGER.warn("Некорректный день создания: {} (минимум: {})",
-                       creationDay, MIN_CREATION_DAY);
-            creationDay = MIN_CREATION_DAY;
+        // Проверяем специальные флаги - они всегда валидны
+        if (!isSpecialFlag(creationDay))
+        {
+            // Валидация для обычных дней
+            if (creationDay < MIN_CREATION_DAY) {
+                LOGGER.warn("Некорректный день создания: {} (минимум: {})",
+                        creationDay, MIN_CREATION_DAY);
+                creationDay = MIN_CREATION_DAY;
+            }
+            if (creationDay > MAX_CREATION_DAY) {
+                LOGGER.warn("Некорректный день создания: {} (максимум: {})",
+                        creationDay, MAX_CREATION_DAY);
+                creationDay = MAX_CREATION_DAY;
+            }
         }
-        if (creationDay > MAX_CREATION_DAY) {
-            LOGGER.warn("Некорректный день создания: {} (максимум: {})",
-                       creationDay, MAX_CREATION_DAY);
-            creationDay = MAX_CREATION_DAY;
-        }
+    }
+
+    /**
+     * Проверяет, является ли значение специальным флагом
+     */
+    public static boolean isSpecialFlag(long creationDay) {
+        return creationDay == TRANSIENT_NEVER_DECAY_FLAG ||
+               creationDay == INVISIBLE_NEVER_DECAY_FLAG ||
+               creationDay == NEVER_DECAY_FLAG ||
+               creationDay == ROTTEN_FLAG;
     }
 
     /**

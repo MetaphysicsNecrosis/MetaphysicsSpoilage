@@ -278,6 +278,17 @@ public class SpoilageChecker {
      * @param level Серверный уровень
      */
     public static void checkPlayerInventory(Player player, ServerLevel level) {
+        checkPlayerInventory(player, level, false);
+    }
+
+    /**
+     * Проверяет инвентарь игрока на предмет испорченных предметов.
+     *
+     * @param player Игрок для проверки
+     * @param level Серверный уровень
+     * @param ignoreCooldown Игнорировать кулдаун (для принудительных проверок)
+     */
+    public static void checkPlayerInventory(Player player, ServerLevel level, boolean ignoreCooldown) {
         if (player == null || level == null) {
             return;
         }
@@ -285,14 +296,21 @@ public class SpoilageChecker {
         UUID playerId = player.getUUID();
         long currentTime = System.currentTimeMillis();
 
-        // Проверяем кулдаун для предотвращения частых проверок
-        Long lastCheck = LAST_PLAYER_CHECK.get(playerId);
-        if (lastCheck != null && (currentTime - lastCheck) < PLAYER_CHECK_COOLDOWN) {
-            return; // Слишком рано для новой проверки
+        // Проверяем кулдаун для предотвращения частых проверок (если не игнорируется)
+        if (!ignoreCooldown) {
+            Long lastCheck = LAST_PLAYER_CHECK.get(playerId);
+            if (lastCheck != null && (currentTime - lastCheck) < PLAYER_CHECK_COOLDOWN) {
+                LOGGER.debug("Пропуск проверки инвентаря игрока {} - кулдаун ({} мс)",
+                        player.getName().getString(), currentTime - lastCheck);
+                return; // Слишком рано для новой проверки
+            }
         }
 
         LAST_PLAYER_CHECK.put(playerId, currentTime);
         STATISTICS.incrementInventoryChecks();
+
+        LOGGER.info("Проверка инвентаря игрока: {} (принудительная: {})",
+                player.getName().getString(), ignoreCooldown);
 
         Inventory inventory = player.getInventory();
         int spoiledCount = 0;

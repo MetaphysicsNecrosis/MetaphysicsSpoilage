@@ -7,6 +7,7 @@ import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageTransformer;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +22,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,15 +39,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * @since 1.21.8
  */
-@EventBusSubscriber
+@EventBusSubscriber // ВКЛЮЧЕНО ОБРАТНО: нужно для автоматического превращения предметов в мире и инвентарях
 public class SpoilageTransformationHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpoilageTransformationHandler.class);
 
     /**
-     * Интервал проверки инвентарей игроков в тиках (30 секунд = 600 тиков)
+     * Интервал проверки инвентарей игроков в тиках (1 секунда = 20 тиков)
      */
-    private static final int PLAYER_INVENTORY_CHECK_INTERVAL = 600;
+    private static final int PLAYER_INVENTORY_CHECK_INTERVAL = 20;
 
     /**
      * Интервал проверки предметов в мире в тиках (10 секунд = 200 тиков)
@@ -86,7 +88,7 @@ public class SpoilageTransformationHandler {
 
         // Периодическая проверка инвентарей игроков
         if (tickCounter % PLAYER_INVENTORY_CHECK_INTERVAL == 0) {
-            checkAllPlayerInventories();
+            checkAllPlayerInventories(event.getServer());
         }
 
         // Очистка кэшей каждые 30 минут (36000 тиков)
@@ -132,10 +134,11 @@ public class SpoilageTransformationHandler {
     }
 
     /**
+     * ОТКЛЮЧЕНО: обработка употребления еды делегирована FoodConsumptionMixin для избежания дублирования
      * Обработчик попытки использования предмета (еды)
      */
-    @SubscribeEvent
-    public static void onItemUse(LivingEntityUseItemEvent.Start event) {
+    // @SubscribeEvent
+    public static void onItemUse_DISABLED(LivingEntityUseItemEvent.Start event) {
         // Проверяем только игроков
         if (!(event.getEntity() instanceof Player player)) {
             return;
@@ -300,10 +303,47 @@ public class SpoilageTransformationHandler {
      * Проверяет инвентари всех игроков на сервере
      */
     private static void checkAllPlayerInventories() {
-        // Эта функция будет вызвана через ServerTickEvent, поэтому нужно получить всех игроков
-        // Для этого нужен доступ к серверу, который мы получим через события
-        // Пока что оставляем заглушку, так как для полной реализации нужен доступ к MinecraftServer
-        LOGGER.debug("Периодическая проверка инвентарей игроков (заглушка)");
+        // Эта функция вызывается из onServerTick, где у нас есть доступ к серверу
+        // Но мы не можем получить сервер статически, поэтому пропускаем проверку
+        // Проверка инвентарей выполняется в SpoilageEventHandler.onPlayerTick
+        LOGGER.debug("Проверка инвентарей делегирована в SpoilageEventHandler");
+    }
+
+    /**
+     * Проверяет инвентари всех игроков на сервере с переданным экземпляром сервера
+     */
+    public static void checkAllPlayerInventories(net.minecraft.server.MinecraftServer server) {
+        try {
+            if (server == null) {
+                return;
+            }
+
+            List<ServerPlayer> players = server.getPlayerList().getPlayers();
+            if (players.isEmpty()) {
+                return;
+            }
+
+            LOGGER.debug("Начинаем проверку инвентарей {} игроков", players.size());
+
+            // Проверяем каждого игрока
+            for (ServerPlayer player : players) {
+                // Проверяем кулдаун для конкретного игрока
+                UUID playerId = player.getUUID();
+                long currentTime = System.currentTimeMillis();
+                Long lastCheck = LAST_PLAYER_CHECKS.get(playerId);
+
+                // Если проверка была недавно, пропускаем
+                if (lastCheck != null && (currentTime - lastCheck) < CHECK_COOLDOWN) {
+                    continue;
+                }
+
+                // Проверяем инвентарь игрока на порчу
+                checkPlayerInventoryForSpoilage(player);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Ошибка при проверке инвентарей всех игроков", e);
+        }
     }
 
     /**

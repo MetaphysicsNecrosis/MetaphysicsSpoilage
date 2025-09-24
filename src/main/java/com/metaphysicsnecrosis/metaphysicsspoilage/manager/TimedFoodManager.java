@@ -306,6 +306,55 @@ public class TimedFoodManager {
     }
 
     /**
+     * Получает испорченный продукт для предмета независимо от контекста употребления.
+     * Этот метод всегда возвращает испорченный вариант если предмет может портиться,
+     * не зависимо от того, употребляется ли предмет в пищу или нет.
+     *
+     * @param stack ItemStack для проверки
+     * @param level серверный уровень
+     * @return испорченный ItemStack или оригинальный, если предмет не может портиться
+     */
+    public static ItemStack getSpoiledProduct(ItemStack stack, ServerLevel level) {
+        if (stack.isEmpty()) {
+            return stack;
+        }
+
+        // Проверяем, может ли предмет портиться
+        if (!canSpoilOptimized(stack.getItem())) {
+            return stack; // Предмет не может портиться
+        }
+
+        // Проверяем, испорчен ли предмет
+        if (!SpoilageUtils.isItemSpoiled(stack, level)) {
+            return stack; // Предмет еще свежий
+        }
+
+        String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+        LOGGER.debug("Получение испорченного продукта для {}", itemId);
+
+        // Сначала пробуем новую систему превращения SpoilageTransformer
+        ItemStack transformedStack = SpoilageTransformer.transformSpoiledItem(stack, stack.getItem());
+        if (!transformedStack.isEmpty()) {
+            LOGGER.debug("Предмет {} превращен в испорченный через SpoilageTransformer: {}",
+                    itemId, BuiltInRegistries.ITEM.getKey(transformedStack.getItem()));
+            return transformedStack;
+        }
+
+        // Fallback на старую систему
+        Item spoiledItem = getSpoiledItem(stack.getItem());
+        if (spoiledItem != Items.AIR) {
+            ItemStack spoiledStack = new ItemStack(spoiledItem, stack.getCount());
+            LOGGER.debug("Предмет {} превращен в испорченный (fallback): {}",
+                    itemId, BuiltInRegistries.ITEM.getKey(spoiledItem));
+            return spoiledStack;
+        }
+
+        // Если ничего не получилось, возвращаем оригинальный предмет
+        LOGGER.warn("Не удалось найти испорченный вариант для {}, возвращаем оригинал", itemId);
+        return stack;
+    }
+
+    /**
      * Получает испорченный предмет для данного типа еды
      *
      * @param originalItem оригинальный предмет еды

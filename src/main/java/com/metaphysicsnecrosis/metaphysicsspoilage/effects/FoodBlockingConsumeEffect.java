@@ -70,9 +70,15 @@ public class FoodBlockingConsumeEffect {
             return;
         }
 
-        // Применяем логику блокировки
+        // Применяем логику блокировки еды без меток
         if (shouldBlockFoodConsumption(stack, entity)) {
             handleFoodBlocking(stack, entity, level, event);
+            return;
+        }
+
+        // Проверяем порчу еды с метками (заменяет FoodConsumptionMixin)
+        if (TimedFoodManager.isTimedFood(stack) && entity instanceof ServerPlayer) {
+            handleSpoiledFoodConsumption(stack, (ServerPlayer) entity, (ServerLevel) level, event);
         }
     }
 
@@ -315,6 +321,52 @@ public class FoodBlockingConsumeEffect {
         } catch (Exception e) {
             LOGGER.error("Ошибка валидации FoodBlockingConsumeEffect", e);
             return false;
+        }
+    }
+
+    /**
+     * Обрабатывает употребление испорченной еды (заменяет FoodConsumptionMixin).
+     *
+     * @param stack ItemStack еды
+     * @param player Игрок
+     * @param level Серверный уровень
+     * @param event Событие начала использования предмета
+     */
+    private static void handleSpoiledFoodConsumption(ItemStack stack, ServerPlayer player, ServerLevel level, LivingEntityUseItemEvent.Start event) {
+        String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+
+        // Проверяем, испорчена ли еда
+        if (SpoilageUtils.isItemSpoiled(stack, level)) {
+            LOGGER.debug("Блокировка употребления испорченной еды: {} игроком {}", itemId, player.getName().getString());
+
+            // Блокируем употребление
+            event.setCanceled(true);
+
+            // ВСЕГДА сначала пытаемся превратить в испорченный вариант
+            ItemStack spoiledProduct = TimedFoodManager.getSpoiledProduct(stack, level);
+            if (!spoiledProduct.isEmpty() && !ItemStack.matches(stack, spoiledProduct)) {
+                // Заменяем предмет в руке игрока на испорченный
+                if (player.getMainHandItem() == stack) {
+                    player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, spoiledProduct);
+                } else if (player.getOffhandItem() == stack) {
+                    player.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, spoiledProduct);
+                }
+
+                LOGGER.info("Превращен испорченный предмет {} -> {} у игрока {}",
+                        itemId, BuiltInRegistries.ITEM.getKey(spoiledProduct.getItem()), player.getName().getString());
+            }
+
+            // Отправляем сообщение игроку
+            Component message = Component.translatable(
+                "message.metaphysicsspoilage.food_spoiled",
+                Component.translatable("item." + itemId.replace(":", "."))
+            ).withStyle(ChatFormatting.RED);
+
+            player.displayClientMessage(message, true);
+
+            // Воспроизводим звук отвращения
+            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                    SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.7F, 0.5F);
         }
     }
 

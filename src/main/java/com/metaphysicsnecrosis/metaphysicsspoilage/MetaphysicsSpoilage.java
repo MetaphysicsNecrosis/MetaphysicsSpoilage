@@ -36,8 +36,8 @@ import com.metaphysicsnecrosis.metaphysicsspoilage.component.SpoilageComponent;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageChecker;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageTransformer;
 import com.metaphysicsnecrosis.metaphysicsspoilage.manager.TimedFoodManager;
-import com.metaphysicsnecrosis.metaphysicsspoilage.events.SpoilageTransformationHandler;
-import com.metaphysicsnecrosis.metaphysicsspoilage.events.FoodReplacementHandler;
+// import com.metaphysicsnecrosis.metaphysicsspoilage.events.SpoilageTransformationHandler; // ОТКЛЮЧЕНО
+import com.metaphysicsnecrosis.metaphysicsspoilage.component.SpoilageHooks;
 import com.metaphysicsnecrosis.metaphysicsspoilage.items.FoodContainer;
 import com.metaphysicsnecrosis.metaphysicsspoilage.items.StoredFoodEntry;
 import com.metaphysicsnecrosis.metaphysicsspoilage.gui.FoodContainerMenu;
@@ -48,7 +48,6 @@ import com.metaphysicsnecrosis.metaphysicsspoilage.network.FoodContainerPayload;
 import com.metaphysicsnecrosis.metaphysicsspoilage.network.FoodContainerPayloadHandler;
 import com.metaphysicsnecrosis.metaphysicsspoilage.network.FoodContainerSyncPayload;
 import com.metaphysicsnecrosis.metaphysicsspoilage.network.FoodContainerSyncHandler;
-import com.metaphysicsnecrosis.metaphysicsspoilage.commands.SpoilageTestCommand;
 import com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.JsonSpoilageConfig;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -186,12 +185,12 @@ public class MetaphysicsSpoilage {
             LOGGER.error("MetaphysicsSpoilage: SpoilageTransformer validation failed");
         }
 
-        // Валидация SpoilageTransformationHandler
-        if (SpoilageTransformationHandler.validateHandler()) {
-            LOGGER.info("MetaphysicsSpoilage: SpoilageTransformationHandler validation passed");
-        } else {
-            LOGGER.error("MetaphysicsSpoilage: SpoilageTransformationHandler validation failed");
-        }
+        // Валидация SpoilageTransformationHandler (ОТКЛЮЧЕНА - заменена на SpoilageHooks)
+        // if (SpoilageTransformationHandler.validateHandler()) {
+        //     LOGGER.info("MetaphysicsSpoilage: SpoilageTransformationHandler validation passed");
+        // } else {
+        //     LOGGER.error("MetaphysicsSpoilage: SpoilageTransformationHandler validation failed");
+        // }
 
         // Валидация FoodBlockingConsumeEffect
         if (FoodBlockingConsumeEffect.validateEffect()) {
@@ -207,11 +206,11 @@ public class MetaphysicsSpoilage {
             LOGGER.error("MetaphysicsSpoilage: FoodBlockingUtils validation failed");
         }
 
-        // Валидация FoodReplacementHandler
-        if (FoodReplacementHandler.validateHandler()) {
-            LOGGER.info("MetaphysicsSpoilage: FoodReplacementHandler validation passed");
+        // Валидация SpoilageHooks (новая упрощенная система)
+        if (SpoilageHooks.validate()) {
+            LOGGER.info("MetaphysicsSpoilage: SpoilageHooks validation passed");
         } else {
-            LOGGER.error("MetaphysicsSpoilage: FoodReplacementHandler validation failed");
+            LOGGER.error("MetaphysicsSpoilage: SpoilageHooks validation failed");
         }
 
         LOGGER.info("MetaphysicsSpoilage: SpoilageChecker system ready for use");
@@ -251,15 +250,13 @@ public class MetaphysicsSpoilage {
         LOGGER.info("MetaphysicsSpoilage: Network payloads registered");
     }
 
-    @SubscribeEvent
-    public void onRegisterCommands(RegisterCommandsEvent event) {
-        SpoilageTestCommand.register(event.getDispatcher());
-        LOGGER.info("MetaphysicsSpoilage: Test commands registered");
-    }
 
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        // ОБРАБОТКА КРЕАТИВНЫХ ТАБОВ: Устанавливаем свежие метки для всей еды
+        processCreativeTabFood(event);
+
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(EXAMPLE_BLOCK_ITEM);
         }
@@ -269,6 +266,52 @@ public class MetaphysicsSpoilage {
             event.accept(FOOD_CONTAINER_BASIC);
             event.accept(FOOD_CONTAINER_ADVANCED);
             event.accept(FOOD_CONTAINER_PREMIUM);
+        }
+    }
+
+    /**
+     * Обрабатывает содержимое креативных табов для установки свежих меток на еду
+     */
+    private void processCreativeTabFood(BuildCreativeModeTabContentsEvent event) {
+        try {
+            // Обрабатываем только табы, где логично иметь еду с флагами
+            if (event.getTabKey() != CreativeModeTabs.FOOD_AND_DRINKS &&
+                event.getTabKey() != CreativeModeTabs.INGREDIENTS &&
+                event.getTabKey() != CreativeModeTabs.SPAWN_EGGS) { // В spawn eggs может быть еда от мобов
+                return;
+            }
+
+            LOGGER.debug("Обработка креативного таба {} для установки флагов порчи", event.getTabKey());
+
+            // Правильный способ обработать предметы в креативном табе:
+            // Используем accept() для добавления предметов с нужными флагами
+            // Сначала получаем все предметы, которые могут портиться
+            var foodItems = net.minecraft.core.registries.BuiltInRegistries.ITEM.stream()
+                .filter(item -> {
+                    net.minecraft.world.item.ItemStack testStack = new net.minecraft.world.item.ItemStack(item);
+                    return testStack.has(net.minecraft.core.component.DataComponents.FOOD) &&
+                           com.metaphysicsnecrosis.metaphysicsspoilage.spoilage.SpoilageUtils.canItemSpoil(item);
+                })
+                .toList();
+
+            LOGGER.debug("Найдено {} предметов еды для обработки в креативном табе", foodItems.size());
+
+            // Для каждого такого предмета создаем ItemStack с флагом TRANSIENT_NEVER_DECAY
+            for (var item : foodItems) {
+                net.minecraft.world.item.ItemStack stack = new net.minecraft.world.item.ItemStack(item);
+
+                // Устанавливаем флаг "временно не портится" для креативного режима
+                com.metaphysicsnecrosis.metaphysicsspoilage.component.SpoilageHooks.setTransientNonDecaying(stack);
+
+                // Добавляем в таб через accept (это перезапишет стандартный стек)
+                event.accept(stack);
+
+                String itemId = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString();
+                LOGGER.debug("Установлен TRANSIENT_NEVER_DECAY для {} в креативном табе", itemId);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Ошибка при обработке креативного таба: {}", e.getMessage());
         }
     }
 

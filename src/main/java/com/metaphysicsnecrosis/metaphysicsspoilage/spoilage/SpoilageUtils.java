@@ -100,6 +100,17 @@ public class SpoilageUtils {
             return false;
         }
 
+        // Проверяем специальные флаги
+        if (creationDay == SpoilageComponent.TRANSIENT_NEVER_DECAY_FLAG ||
+            creationDay == SpoilageComponent.INVISIBLE_NEVER_DECAY_FLAG ||
+            creationDay == SpoilageComponent.NEVER_DECAY_FLAG) {
+            return false; // Эти флаги означают, что еда не портится
+        }
+
+        if (creationDay == SpoilageComponent.ROTTEN_FLAG) {
+            return true; // Принудительно испорчено
+        }
+
         // Получаем текущий день
         WorldDayTracker tracker = WorldDayTracker.getInstance(level);
         long currentDay = tracker.getCurrentDay();

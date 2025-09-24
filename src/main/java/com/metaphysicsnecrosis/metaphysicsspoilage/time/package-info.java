@@ -5,7 +5,6 @@
  * <ul>
  *   <li>{@link com.metaphysicsnecrosis.metaphysicsspoilage.time.WorldDayTracker} - Основной класс для отслеживания игровых дней с использованием SavedData</li>
  *   <li>{@link com.metaphysicsnecrosis.metaphysicsspoilage.time.TimeUtils} - Утилитный класс для работы с игровым временем</li>
- *   <li>{@link com.metaphysicsnecrosis.metaphysicsspoilage.time.DayTrackingExample} - Примеры использования системы</li>
  * </ul>
  *
  * <h2>Основные возможности:</h2>

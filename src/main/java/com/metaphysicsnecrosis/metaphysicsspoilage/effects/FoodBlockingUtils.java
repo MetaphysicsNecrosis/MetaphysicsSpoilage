@@ -18,7 +18,7 @@ import java.util.List;
  * Предоставляет методы для:
  * - Проверки необходимости блокировки
  * - Валидации системы блокировки
- * - Интеграции с FoodReplacementHandler
+ * - Интеграции с SpoilageHooks (новая упрощенная система)
  *
  * @author MetaphysicsNecrosis
  * @version 1.0

@@ -40,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * @since 1.21.8
  */
-@EventBusSubscriber
+@EventBusSubscriber // ВКЛЮЧЕНО ОБРАТНО: нужна периодическая проверка инвентарей для превращения порченой еды
 public class SpoilageEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpoilageEventHandler.class);
@@ -49,9 +49,9 @@ public class SpoilageEventHandler {
 
     /**
      * Интервал между автоматическими проверками инвентарей в тиках (20 тиков = 1 секунда)
-     * По умолчанию: каждые 30 секунд
+     * По умолчанию: каждую 1 секунду
      */
-    private static final int INVENTORY_CHECK_INTERVAL = 20 * 5;
+    private static final int INVENTORY_CHECK_INTERVAL = 20;
 
     /**
      * Счетчик тиков сервера для периодических задач
@@ -71,11 +71,12 @@ public class SpoilageEventHandler {
     // === СОБЫТИЕ: УПОТРЕБЛЕНИЕ ПРЕДМЕТОВ ===
 
     /**
+     * ОТКЛЮЧЕНО: обработка употребления еды делегирована FoodConsumptionMixin для избежания дублирования
      * Обрабатывает событие начала употребления предметов.
      * Проверяет предметы на порчу и блокирует употребление испорченной еды.
      */
-    @SubscribeEvent
-    public static void onItemUseStart(LivingEntityUseItemEvent.Start event) {
+    // @SubscribeEvent
+    public static void onItemUseStart_DISABLED(LivingEntityUseItemEvent.Start event) {
         // Проверяем только игроков на серверной стороне
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
@@ -146,11 +147,12 @@ public class SpoilageEventHandler {
     }
 
     /**
+     * ОТКЛЮЧЕНО: обработка завершения употребления еды делегирована FoodConsumptionMixin для избежания дублирования
      * Обрабатывает завершение употребления предметов для обнуления питательности
      * при употреблении еды без временной метки в режиме ZERO_NUTRITION.
      */
-    @SubscribeEvent
-    public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
+    // @SubscribeEvent
+    public static void onItemUseFinish_DISABLED(LivingEntityUseItemEvent.Finish event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
